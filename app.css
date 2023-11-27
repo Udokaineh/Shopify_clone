@@ -660,7 +660,6 @@ header {
     align-items: center;
     background-color: #36FBA1;
     border-radius: 6px;
-    color: rgba(0, 0, 0, 4.0);
     font-size: 12px;
     font-weight: 600;
     color: rgba(0, 0, 0, 40%)
@@ -1023,7 +1022,7 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    /* transform: rotate(360deg); */
+    transform: rotate(360deg);
 }
 
 /* cirlcle */
@@ -1046,6 +1045,19 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border-radius: 6px;
+    transition: border-color 0.3s, background-color 0.2s ease-in-out;
+}
+
+
+.customize-icon:focus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+    justify-content: center;
+    background-color: var(--white);
+    border: 2px solid var(--blue);
 }
 
 .customize-icon:hover svg circle {

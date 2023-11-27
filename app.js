@@ -244,11 +244,10 @@ let checkboxUpdate = document.querySelectorAll(".check-box-update")
 
 
 const clickIcon = (index) => {
-    checkboxUpdate[index].setAttribute("aria-label", "Loading. Please wait...")
+    checkboxUpdate[index].setAttribute("aria-label", "Loading. Please wait...");
     customizeDiv[index].classList.remove("customize-icon")
     customizeDiv[index].classList.add("clicked-customize-icon")
     animatedCircle[index].classList.add("clicked-animated-circle")
-
     setTimeout(() => {
         animatedCircle[index].classList.remove("clicked-animated-circle")
         customizeSVG[index].classList.add("clicked-customize-svg")
@@ -256,7 +255,7 @@ const clickIcon = (index) => {
         animatedTick[index].style.opacity = "1"
     }, 800)
     setTimeout(() => {
-        checkboxUpdate[index].setAttribute("aria-label", "Successfully marked as done")
+        checkboxUpdate[index].setAttribute("aria-label", "Successfully marked as done");
     }, 1000)
     const nextIndex = (index + 1) % itemSection.length;
     toggleElement(nextIndex)
@@ -265,22 +264,22 @@ const clickIcon = (index) => {
 
 const unClickIcon = (index) => {
     checkboxUpdate[index].setAttribute("aria-label", "Loading. Please wait...");
-    animatedTick[index].style.opacity = "0";
-    animatedCircle[index].style.stroke = "#8A8A8A";
-    customizeSVG[index].classList.remove("clicked-customize-svg");
-    animatedCircle[index].classList.add("clicked-animated-circle");
+    animatedTick[index].style.opacity = "0"
+    animatedCircle[index].style.stroke = "#8A8A8A"
+    customizeSVG[index].classList.remove("clicked-customize-svg")
+    animatedCircle[index].classList.add("clicked-animated-circle")
 
     setTimeout(() => {
-        animatedCircle[index].classList.remove("clicked-animated-circle");
-        customizeDiv[index].classList.remove("clicked-customize-icon");
-        customizeDiv[index].classList.add("customize-icon");
+        animatedCircle[index].classList.remove("clicked-animated-circle")
+        customizeDiv[index].classList.remove("clicked-customize-icon")
+        customizeDiv[index].classList.add("customize-icon")
     }, 800);
 
     setTimeout(() => {
         checkboxUpdate[index].setAttribute("aria-label", "Successfully marked as not done");
     }, 1000);
 
-    updateProgressBar(false, 1, 14);
+    updateProgressBar(false, 1, 14)
 };
 
 // i want it to click the customizediv(icon) and go to the next item
@@ -288,7 +287,7 @@ const unClickIcon = (index) => {
 
 for (let i = 0; i < itemSection.length; i++) {
     customizeDiv[i].addEventListener("click", (event) => {
-        const index = Array.from(customizeDiv).indexOf(event.currentTarget);
+        const index = Array.from(customizeDiv).indexOf(event.currentTarget)
         if (customizeDiv[index].classList.contains("customize-icon")) {
             clickIcon(index);
         } else {
