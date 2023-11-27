@@ -83,6 +83,7 @@ header {
     position: relative;
     border: 1px solid var(--grey100);
     width: 30rem;
+    height: 32px;
     padding: 0 8px;
     gap: 6px;
     border-radius: 8px;
@@ -103,6 +104,7 @@ header {
     align-items: center;
     border: 1px solid #E1E1E1;
     width: 30rem;
+    height: 32px;
     padding: 0 8px;
     gap: 6px;
     border-radius: 8px;
@@ -116,6 +118,7 @@ header {
     align-items: center;
     border: 2px solid var(--white);
     width: 30rem;
+    height: 32px;
     padding: 0 8px;
     gap: 6px;
     border-radius: 8px;
@@ -129,6 +132,7 @@ header {
     align-items: center;
     border: 2px solid var(--white);
     width: 30rem;
+    height: 32px;
     padding: 0 8px;
     gap: 6px;
     border-radius: 8px;
@@ -1198,19 +1202,8 @@ header {
     }
 
     .search-button {
-        width: 14rem;
-    }
-
-    .search-button:hover {
-        width: 14rem;
-    }
-
-    .search-button:active {
-        width: 14rem;
-    }
-
-    .search-button:focus-within {
-        width: 14rem;
+        gap: 6px;
+        flex: 1 0 0;
     }
 
     .notification-icon {

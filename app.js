@@ -119,21 +119,28 @@ const toggleIemsWrapperDiv = () => {
 dropDownIcon.addEventListener("click", toggleIemsWrapperDiv)
 
 // toggleitemWrapperDiv using ArrowUp key
-const keyboardToggleItemsWrapperDiv = () => {
-    if (itemsWrapper.classList.contains("items-wrapper")) {
-        itemsWrapper.classList.remove("items-wrapper")
-        itemsWrapper.classList.add("toggle-items-wrapper")
-        dropDownIcon.style.transform = "rotate(0deg)"
-        dropDownIcon.style.border = "2px solid transparent"
-    } else if (itemsWrapper.classList.contains("toggle-items-wrapper")) {
-        itemsWrapper.classList.remove("toggle-items-wrapper")
-        itemsWrapper.classList.add("items-wrapper")
-        dropDownIcon.style.transform = "rotate(180deg)"
-        dropDownIcon.style.border = "2px solid #005BD3"
+const keyboardToggleItemsWrapperDiv = (event) => {
+    if (event.key === "ArrowUp") {
+        if (itemsWrapper.classList.contains("items-wrapper")) {
+            // If the dropdown is closed, open it
+            itemsWrapper.classList.remove("items-wrapper")
+            itemsWrapper.classList.add("toggle-items-wrapper")
+            dropDownIcon.style.transform = "rotate(0deg)"
+            dropDownIcon.style.border = "2px solid transparent"
+        } else {
+            // If the dropdown is open, close it
+            itemsWrapper.classList.remove("toggle-items-wrapper")
+            itemsWrapper.classList.add("items-wrapper")
+            dropDownIcon.style.transform = "rotate(180deg)"
+            dropDownIcon.style.border = "2px solid #005BD3"
+        }
     }
 }
 dropDownIcon.addEventListener("keyup", keyboardToggleItemsWrapperDiv)
 
+window.onload = function () {
+    dropDownIcon.focus()
+}
 
 
 // for the plan advert
@@ -237,7 +244,7 @@ let checkboxUpdate = document.querySelectorAll(".check-box-update")
 
 
 const clickIcon = (index) => {
-    checkboxUpdate[index].ariaLabel = "Loading. Please wait..."
+    checkboxUpdate[index].setAttribute("aria-label", "Loading. Please wait...")
     customizeDiv[index].classList.remove("customize-icon")
     customizeDiv[index].classList.add("clicked-customize-icon")
     animatedCircle[index].classList.add("clicked-animated-circle")
@@ -248,26 +255,33 @@ const clickIcon = (index) => {
         animatedCircle[index].style.stroke = "#303030"
         animatedTick[index].style.opacity = "1"
     }, 800)
-    checkboxUpdate[index].ariaLabel = "Successfully marked as done"
+    setTimeout(() => {
+        checkboxUpdate[index].setAttribute("aria-label", "Successfully marked as done")
+    }, 1000)
     const nextIndex = (index + 1) % itemSection.length;
     toggleElement(nextIndex)
     updateProgressBar(true, 1, 14)
 };
 
 const unClickIcon = (index) => {
-    checkboxUpdate[index].ariaLabel = "Loading. Please wait..."
-    animatedTick[index].style.opacity = "0"
-    animatedCircle[index].style.stroke = "#8A8A8A"
-    customizeSVG[index].classList.remove("clicked-customize-svg")
-    animatedCircle[index].classList.add("clicked-animated-circle")
+    checkboxUpdate[index].setAttribute("aria-label", "Loading. Please wait...");
+    animatedTick[index].style.opacity = "0";
+    animatedCircle[index].style.stroke = "#8A8A8A";
+    customizeSVG[index].classList.remove("clicked-customize-svg");
+    animatedCircle[index].classList.add("clicked-animated-circle");
+
     setTimeout(() => {
-        animatedCircle[index].classList.remove("clicked-animated-circle")
-        customizeDiv[index].classList.remove("clicked-customize-icon")
-        customizeDiv[index].classList.add("customize-icon")
-    }, 800)
-    checkboxUpdate[index].ariaLabel = "Successfully marked as not done"
-    updateProgressBar(false, 1, 14)
-}
+        animatedCircle[index].classList.remove("clicked-animated-circle");
+        customizeDiv[index].classList.remove("clicked-customize-icon");
+        customizeDiv[index].classList.add("customize-icon");
+    }, 800);
+
+    setTimeout(() => {
+        checkboxUpdate[index].setAttribute("aria-label", "Successfully marked as not done");
+    }, 1000);
+
+    updateProgressBar(false, 1, 14);
+};
 
 // i want it to click the customizediv(icon) and go to the next item
 // but when i unclick it shud open the customizeThemeDiv which was handled inside the toggleThemeDiv
