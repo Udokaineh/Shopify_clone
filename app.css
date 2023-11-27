@@ -24,11 +24,13 @@
 
 body {
     background-color: var(--background);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 a,
 svg {
     cursor: pointer;
+    text-decoration: none;
 }
 
 p {
@@ -61,6 +63,7 @@ header {
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
     gap: 8px;
+    z-index: 100;
 }
 
 .logo {
@@ -319,7 +322,7 @@ header {
     border-radius: 8px;
 }
 
-.notification-icon-focus {
+.notification-icon:focus {
     padding: 5px;
     background-color: var(--grey50);
     border-radius: 8px;
@@ -355,7 +358,7 @@ header {
     display: none;
 }
 
-.storename-popup-items-div {
+/* .storename-popup-items-div {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -363,7 +366,7 @@ header {
     align-items: flex-start;
     gap: 4px;
     position: relative;
-}
+} */
 
 .hr {
     width: 100%;
@@ -380,7 +383,7 @@ header {
     background-color: #E1E1E1;
 }
 
-.storename-popup-items {
+.storename-popup-items-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -388,6 +391,8 @@ header {
     row-gap: 4px;
     width: 100%;
     padding: 6px 6px 0 6px;
+    width: 100%;
+    position: relative;
 }
 
 .store-icon {
@@ -397,73 +402,50 @@ header {
     align-items: center;
 }
 
-.storename-popup-items li {
+.li-button {
+    width: 100%;
     color: var(--font-dark);
     font-size: 13px;
     font-weight: 400;
     line-height: 140%;
+    text-align: left;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.storename-popup-li {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    column-gap: 8px;
-    padding: 6px;
-    border-radius: 8px;
-    background-color: var(--white);
-    border: 2px solid transparent;
     width: 100%;
     cursor: pointer;
 }
 
-.storename-popup-items li:hover {
-    color: var(--font-dark);
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 140%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    column-gap: 8px;
-    padding: 6px;
+
+.li-button:hover {
     background-color: var(--white-hover);
     border-radius: 8px;
     border: 2px solid transparent;
-    width: 100%;
 }
 
-.storename-popup-items li:active {
-    color: var(--font-dark);
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 140%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    column-gap: 8px;
-    padding: 6px;
+.li-button:active {
     border-radius: 8px;
     background-color: var(--white-pressed);
     border: 2px solid transparent;
-    width: 100%;
 }
 
-.storename-popup-items li:focus {
-    color: var(--font-dark);
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 140%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    column-gap: 8px;
-    padding: 6px;
+.li-button:focus {
     border-radius: 8px;
     background-color: var(--white);
     border: 2px solid var(--blue);
-    width: 100%;
 }
 
 .popup-items {
@@ -545,41 +527,15 @@ header {
     border: 2px solid var(--blue);
 }
 
-.nested-li {
+#nested-li {
     color: var(--font-dark);
     font-size: 13px;
-    font-weight: 500;
-    line-height: 140%;
-    padding: 8px 6px;
-    border-radius: 8px;
-    width: 100%;
-    border: 2px solid transparent;
+    font-weight: 500 !important;
+    display: block;
 }
 
-.nested-li:hover {
-    color: var(--font-dark);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 140%;
-    padding: 8px 6px;
-    border-radius: 8px;
-    width: 100%;
-    border: 2px solid transparent;
-    background-color: var(--white-hover);
-}
-
-.nested-li:focus {
-    color: var(--font-dark);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 140%;
-    padding: 8px 6px;
-    border-radius: 8px;
-    width: 100%;
-    border: 2px solid var(--blue);
-}
-
-.nested-li ul {
+#nested-li span {
+    display: block;
     color: var(--font-mid);
     font-family: Inter;
     font-size: 12px;
@@ -660,7 +616,7 @@ header {
     border-radius: 8px;
 }
 
-.storename-div-focus {
+.storename-div:focus {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -671,6 +627,18 @@ header {
     border-radius: 8px;
     box-shadow: 0px 0px 0px 1px #000, 0px 0px 0px 3px #005BD3;
 }
+
+/* .storename-div-focus {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+    padding: 2px 2px 2px 8px;
+    background-color: var(--grey50);
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px #000, 0px 0px 0px 3px #005BD3;
+} */
 
 .storename-div p {
     color: var(--font-light);
@@ -702,6 +670,7 @@ header {
 /* main content */
 .main-content {
     width: 62%;
+    max-width: 800px;
     margin: 3.80rem auto;
     padding-top: 32px;
 }
@@ -745,6 +714,9 @@ header {
 .select-button {
     padding: 6px 12px;
     border-radius: 6px;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
     font-weight: 600;
     line-height: 130%;
     border: none;
@@ -756,6 +728,8 @@ header {
     border-right: 1px solid #E1E1E1;
     box-shadow: 0px 1.5px 0px 0px #B5B5B5;
     transition: background-color 0.2s, box-shadow 0.2s;
+    color: var(--font-dark, #323232);
+
 }
 
 .select-button:hover {
@@ -886,19 +860,20 @@ header {
 .drop-down-icon {
     display: flex;
     padding: 4px;
-    flex-direction: role;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     border-radius: 6px;
     transition: border-color 0.3s;
     transform: rotate(180deg);
+    background-color: var(--white);
     border: 2px solid var(--blue);
 }
 
 .drop-down-icon:hover {
     display: flex;
     padding: 4px;
-    flex-direction: role;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     border-radius: 6px;
@@ -908,11 +883,21 @@ header {
 .drop-down-icon:active {
     display: flex;
     padding: 4px;
-    flex-direction: role;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     border-radius: 6px;
     background-color: var(--white-pressed);
+}
+
+.drop-down-icon:focus {
+    display: flex;
+    padding: 4px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    border: 2px solid var(--blue);
 }
 
 /* items */
@@ -925,7 +910,6 @@ header {
 
 .toggle-items-wrapper {
     margin-top: 16px;
-    display: grid;
     width: 100%;
     row-gap: 4px;
     display: none;
@@ -957,10 +941,10 @@ header {
 
 .item-title-div {
     display: flex;
-    flex-direction: row;
-    column-gap: 8px;
+    flex-direction: column;
+    row-gap: 16px;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .item-title-div-p {
@@ -979,8 +963,8 @@ header {
 
 .item-text-div {
     display: flex;
-    flex-direction: column;
-    row-gap: 16px;
+    flex-direction: row;
+    column-gap: 8px;
     justify-content: flex-start;
     align-items: flex-start;
 }
@@ -1001,7 +985,6 @@ header {
     row-gap: 16px;
     justify-content: flex-start;
     align-items: flex-start;
-    padding-left: 2rem;
 }
 
 .animated-tick {
@@ -1022,8 +1005,12 @@ header {
     fill: #303030;
 }
 
+.clicked-customize-svg circle {
+    stroke-opacity: 0;
+}
+
 .clicked-customize-svg:hover {
-    fill: #D9D9D9;
+    fill: #303030;
 }
 
 /* div */
@@ -1032,7 +1019,7 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    transform: rotate(360deg);
+    /* transform: rotate(360deg); */
 }
 
 /* cirlcle */
@@ -1058,6 +1045,11 @@ header {
 }
 
 .customize-icon:hover svg circle {
+    stroke-dasharray: none;
+    fill: #D9D9D9;
+}
+
+.customize-icon:active svg circle {
     stroke-dasharray: none;
     fill: #D9D9D9;
 }
@@ -1228,6 +1220,22 @@ header {
     .storename-div {
         background-color: transparent;
         padding: 0;
+        column-gap: 0;
+    }
+
+    .storename-div:hover {
+        padding: 0;
+        column-gap: 0;
+    }
+
+    .storename-div:active {
+        padding: 0;
+        column-gap: 0;
+    }
+
+    .storename-div:focus {
+        padding: 0;
+        column-gap: 0;
     }
 
     .storename-div p {

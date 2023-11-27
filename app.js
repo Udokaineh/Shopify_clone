@@ -45,10 +45,13 @@ let titleText = [
 
 
 // to togle the section
-// the -1 sets item to not open
+// the -1 means item not open
 let openIndex = -1;
 
 const toggleElement = (currentIndex) => {
+    if (openIndex === currentIndex) {
+        return;
+    }
     if (openIndex !== -1) {
         customizeThemeDiv[openIndex].classList.remove("customize-theme-div")
         customizeThemeDiv[openIndex].classList.add("hide-customize-theme-div")
@@ -58,7 +61,6 @@ const toggleElement = (currentIndex) => {
         titleText[openIndex].classList.add("toggle-item-title-div-p")
         itemSectionImage[openIndex].classList.remove("item-section-image")
         itemSectionImage[openIndex].classList.add("toggle-item-section-image")
-        // unClickIcon(currentIndex)
     }
 
     // this part checks if the item being clicked is different from wht is opened, to avoid the usual toggle thats why I didnt use (openIndex == -1)
@@ -72,22 +74,22 @@ const toggleElement = (currentIndex) => {
         itemSectionImage[currentIndex].classList.remove("toggle-item-section-image")
         itemSectionImage[currentIndex].classList.add("item-section-image")
         openIndex = currentIndex;  // this sets the current state to openIndex
-        unClickIcon(currentIndex)
     } else {
         // this else block close any open item
         openIndex = -1
     }
 };
 
+toggleElement(0)
+
 for (let i = 0; i < itemSection.length; i++) {
     titleText[i].addEventListener("click", () => {
         toggleElement(i);
     });
 
-    // commented this line of code out becos I do not want to use the icon in opening up the items div.
-    // customizeIcon[i].addEventListener("click", () => {
-    //     toggleElement(i);
-    // });
+    customizeIcon[i].addEventListener("click", () => {
+        toggleElement(i);
+    });
 }
 
 // controls the opening of the first div dynamically
@@ -96,9 +98,9 @@ let itemSectionOne = document.getElementById("itemSectionOne")
 let itemSectionImageOne = document.getElementById("itemSectionImageOne")
 let customizeIconOne = document.getElementById("customizeIconOne")
 let titleTextOne = document.getElementById("titleTextOne")
-let dropDownIcon = document.getElementById("dropDownIcon")
 let itemsWrapper = document.getElementById("itemsWrapper")
 
+let dropDownIcon = document.getElementById("dropDownIcon")
 
 const toggleIemsWrapperDiv = () => {
     if (itemsWrapper.classList.contains("items-wrapper")) {
@@ -111,27 +113,28 @@ const toggleIemsWrapperDiv = () => {
         itemsWrapper.classList.add("items-wrapper")
         dropDownIcon.style.transform = "rotate(180deg)"
         dropDownIcon.style.border = "2px solid #005BD3"
-        openFirstSection()
     }
 }
 
 dropDownIcon.addEventListener("click", toggleIemsWrapperDiv)
 
-const openFirstSection = () => {
-    customizeThemeDivOne.classList.remove("hide-customize-theme-div")
-    customizeThemeDivOne.classList.add("customize-theme-div")
-    itemSectionOne.classList.remove("toggle-item-section")
-    itemSectionOne.classList.add("item-section")
-    titleTextOne.classList.remove("toggle-item-title-div-p")
-    titleTextOne.classList.add("item-title-div-p")
-    itemSectionImageOne.classList.remove("toggle-item-section-image")
-    itemSectionImageOne.classList.add("item-section-image")
-    openIndex = 0;
+// toggleitemWrapperDiv using ArrowUp key
+const keyboardToggleItemsWrapperDiv = () => {
+    if (itemsWrapper.classList.contains("items-wrapper")) {
+        itemsWrapper.classList.remove("items-wrapper")
+        itemsWrapper.classList.add("toggle-items-wrapper")
+        dropDownIcon.style.transform = "rotate(0deg)"
+        dropDownIcon.style.border = "2px solid transparent"
+    } else if (itemsWrapper.classList.contains("toggle-items-wrapper")) {
+        itemsWrapper.classList.remove("toggle-items-wrapper")
+        itemsWrapper.classList.add("items-wrapper")
+        dropDownIcon.style.transform = "rotate(180deg)"
+        dropDownIcon.style.border = "2px solid #005BD3"
+    }
 }
+dropDownIcon.addEventListener("keyup", keyboardToggleItemsWrapperDiv)
 
-window.addEventListener("load", () => {
-    openFirstSection()
-})
+
 
 // for the plan advert
 let bodyHeader = document.getElementById("bodyHeader")
@@ -148,48 +151,79 @@ const planAd = () => {
 desktopCloseIcon.addEventListener("click", planAd)
 mobileCloseIcon.addEventListener("click", planAd)
 
-// To update the icon disturbing the flow of the store popup and alert div
+
 let storenamePopup = document.getElementById("storenamePopup")
 let storenameDiv = document.getElementById("storenameDiv")
 let notificationIcon = document.getElementById("notificationIcon")
 let alertDiv = document.getElementById("alertDiv")
-
-const updateDropDownIconDisplay = () => {
-    if (
-        storenamePopup.classList.contains("storename-popup") ||
-        alertDiv.classList.contains("alert-div")
-    ) {
-        dropDownIcon.style.display = "none"
-    } else {
-        dropDownIcon.style.display = "block"
-    }
-};
+let liButton = document.querySelectorAll(".li-button")
 
 const toggleStorePopup = () => {
     if (storenamePopup.classList.contains("toggle-storename-popup")) {
         storenamePopup.classList.remove("toggle-storename-popup")
         storenamePopup.classList.add("storename-popup")
-        storenameDiv.classList.add("storename-div-focus")
+        storenameDiv.ariaExpanded = true
+        liButton[0].focus()
     } else if (storenamePopup.classList.contains("storename-popup")) {
         storenamePopup.classList.remove("storename-popup")
         storenamePopup.classList.add("toggle-storename-popup")
-        storenameDiv.classList.remove("storename-div-focus")
+        storenameDiv.ariaExpanded = false
     }
-    updateDropDownIconDisplay()
 }
 storenameDiv.addEventListener("click", toggleStorePopup)
+
+storenamePopup.tabIndex = 0
+const handleStoreEscapeKeypress = (event) => {
+    if (event.key === "Escape") {
+        storenamePopup.classList.remove("storename-popup")
+        storenamePopup.classList.add("toggle-storename-popup")
+        storenameDiv.ariaExpanded = false
+        storenameDiv.focus()
+    }
+};
+storenamePopup.addEventListener("keyup", handleStoreEscapeKeypress)
+
+// 
+
+
+// handling keyboard keys
+const storepopupUl = document.getElementById("storepopupUl")
+const liButtons = document.querySelectorAll(".li-button")
+
+let currentIndex = -1
+
+const handleKeydown = (event) => {
+    if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault()
+
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : liButtons.length - 1
+        } else if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+            currentIndex = currentIndex < liButtons.length - 1 ? currentIndex + 1 : 0
+        }
+
+        liButtons[currentIndex].focus()
+    }
+}
+
+const handleFocus = (index) => {
+    currentIndex = index;
+}
+storepopupUl.addEventListener("keydown", handleKeydown);
+
+liButtons.forEach((button, index) => {
+    button.addEventListener("focus", () => handleFocus(index))
+})
+
 
 const toggleAlertPopup = () => {
     if (alertDiv.classList.contains("toggle-alert-div")) {
         alertDiv.classList.remove("toggle-alert-div")
         alertDiv.classList.add("alert-div")
-        notificationIcon.classList.add("notification-icon-focus")
     } else if (alertDiv.classList.contains("alert-div")) {
         alertDiv.classList.remove("alert-div")
         alertDiv.classList.add("toggle-alert-div")
-        notificationIcon.classList.remove("notification-icon-focus")
     }
-    updateDropDownIconDisplay()
 }
 
 notificationIcon.addEventListener("click", toggleAlertPopup)
@@ -199,8 +233,11 @@ let customizeSVG = document.querySelectorAll(".customize-svg")
 let customizeDiv = document.querySelectorAll(".customize-icon")
 let animatedCircle = document.querySelectorAll(".animated-circle")
 let animatedTick = document.querySelectorAll(".animated-tick")
+let checkboxUpdate = document.querySelectorAll(".check-box-update")
+
 
 const clickIcon = (index) => {
+    checkboxUpdate[index].ariaLabel = "Loading. Please wait..."
     customizeDiv[index].classList.remove("customize-icon")
     customizeDiv[index].classList.add("clicked-customize-icon")
     animatedCircle[index].classList.add("clicked-animated-circle")
@@ -211,39 +248,39 @@ const clickIcon = (index) => {
         animatedCircle[index].style.stroke = "#303030"
         animatedTick[index].style.opacity = "1"
     }, 800)
-    isClicked = true
-    updateProgressBar(isClicked, 1, isThemeDivOpen(index), 14)
+    checkboxUpdate[index].ariaLabel = "Successfully marked as done"
+    const nextIndex = (index + 1) % itemSection.length;
+    toggleElement(nextIndex)
+    updateProgressBar(true, 1, 14)
 };
 
 const unClickIcon = (index) => {
-    customizeDiv[index].classList.add("customize-icon")
-    customizeDiv[index].classList.remove("clicked-customize-icon")
+    checkboxUpdate[index].ariaLabel = "Loading. Please wait..."
+    animatedTick[index].style.opacity = "0"
+    animatedCircle[index].style.stroke = "#8A8A8A"
+    customizeSVG[index].classList.remove("clicked-customize-svg")
+    animatedCircle[index].classList.add("clicked-animated-circle")
     setTimeout(() => {
-        animatedTick[index].style.opacity = "0"
-        customizeSVG[index].classList.remove("clicked-customize-svg")
-        animatedCircle[index].style.stroke = "#8A8A8A"
-    }, 200)
-    isClicked = false; // Update isClicked to false
-    updateProgressBar(isClicked, 1, isThemeDivOpen(index), 14)
+        animatedCircle[index].classList.remove("clicked-animated-circle")
+        customizeDiv[index].classList.remove("clicked-customize-icon")
+        customizeDiv[index].classList.add("customize-icon")
+    }, 800)
+    checkboxUpdate[index].ariaLabel = "Successfully marked as not done"
+    updateProgressBar(false, 1, 14)
 }
-const isThemeDivOpen = (index) => {
-    return customizeThemeDiv[index].classList.contains("customize-theme-div")
-};
 
-// i made the icon only ticks if the user clicks on it and unclicks if the themediv is opened
+// i want it to click the customizediv(icon) and go to the next item
+// but when i unclick it shud open the customizeThemeDiv which was handled inside the toggleThemeDiv
+
 for (let i = 0; i < itemSection.length; i++) {
     customizeDiv[i].addEventListener("click", (event) => {
-        if (event.target.closest(".customize-icon")) {
-            const isThemeDivOpen = customizeThemeDiv[i].classList.contains("customize-theme-div")
-            if (isThemeDivOpen) {
-                unClickIcon(i)
-            } else {
-                clickIcon(i)
-            }
+        const index = Array.from(customizeDiv).indexOf(event.currentTarget);
+        if (customizeDiv[index].classList.contains("customize-icon")) {
+            clickIcon(index);
         } else {
-            unClickIcon(i)
+            unClickIcon(index);
         }
-    })
+    });
 }
 
 let isClicked = false;
@@ -252,11 +289,11 @@ let number = document.getElementById("number")
 let count = 0
 let numberCount = 0
 
-const updateProgressBar = (isClicked, numberIncrease, isThemeDivOpen, step) => {
-    if (isClicked && !isThemeDivOpen) {
+const updateProgressBar = (isClicked, numberIncrease, step) => {
+    if (isClicked) {
         count += step
         numberCount += numberIncrease
-    } else if (!isClicked && !isThemeDivOpen) {
+    } else if (!isClicked) {
         count -= step;
         numberCount -= numberIncrease
         if (count < 0 && numberCount < 0) {
