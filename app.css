@@ -1050,7 +1050,7 @@ header {
 }
 
 
-.customize-icon:focus {
+/* .customize-icon:focus {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1058,7 +1058,7 @@ header {
     justify-content: center;
     background-color: var(--white);
     border: 2px solid var(--blue);
-}
+} */
 
 .customize-icon:hover svg circle {
     stroke-dasharray: none;
